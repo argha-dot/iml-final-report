@@ -162,7 +162,27 @@ This vector becomes the feature vector for each comment.
 The test to train split ratio is 3:1. Then we trained our model on SVM, Logistic Regression, Naive Bayes and Decision Trees.
 We trained the model on a laptop with i5-8520U and 16 gigs of RAM.
 We also trained a multi-label model using Binary Relevence from scikit-multilearn module 
-which is built on top of scikit-learn eco-system and provides multi label classification.
+which is built on top of scikit-learn eco-system and provides multi label classification.\\
+\subsubsection*{Cross Validation}
+Cross-validation is the method used to estimate the performance (or accuracy) of machine learning models. It is used to protect against overfitting in a predictive model, particularly in a case where the amount of data may be limited. In cross-validation, you make a fixed number of folds (or partitions) of the data, run the analysis on each fold, and then average the overall error estimate.\\
+Cross Validation gives us the estimate of how well the model will run on a 
+\subsubsection*{Binary Classifier SVM}
+
+\subsubsection*{Naive Bayes}
+\begin{center}
+	\includegraphics[scale=0.75]{figs/cv_NB.png}
+\end{center}
+
+\subsubsection*{Logistic Regression}
+\begin{center}
+	\includegraphics[scale=0.75]{figs/cv_LR.png}
+\end{center}
+
+\subsubsection*{Decision Trees}
+\begin{center}
+	\includegraphics[scale=0.75]{figs/cv_DT.png}
+\end{center}
+
 \subsection*{Deployment}
 After training, we decided to deploy our model for demo purposes. 
 Since we used python for our project, we decided to go with a simple FastAPI server.
@@ -194,6 +214,14 @@ Other metrics
 
 
 \subsection{Multilabel Classifier SVM}
+Confusion Matrix:
+\begin{center}
+	\includegraphics[scale=0.75]{figs/conf_mSVM.jpeg}
+\end{center}
+Other metrics
+\begin{center}
+	\includegraphics[scale=0.75]{figs/rpf_mSVM.jpeg}	
+\end{center}
 
 \subsection{Logistic Regression}
 Confusion Matrix:
