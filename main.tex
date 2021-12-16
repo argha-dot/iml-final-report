@@ -81,20 +81,98 @@ The authors solved the problem of multi-label classification rather than binary 
 \includegraphics[scale=0.9]{figs/chakra_all.png}
 The paper claims that this apporach performs better than LSTM and Naive Bayes and the results validates this claim. We want to validate this claim on binary classification.
 \section{Project Description and goals}
+The project is to classify toxic comments on social media platforms. The goals are as follows:
+\subsection*{Use Different Classification Techniques}
+\begin{enumerate}
+	\item \textbf{Naive Bayes}: Use the results as a benchmark to 
+	compare other results with. This was chosen due to its reputation as a text classifier. This is a Generative Learning Algorithm that uses discrete values rather than continuous. Here we model p(x|y) that is the probability a particular word occurs given the comment is toxic or not. We make a strong assumption that xi’s are conditionally independent given y. Finally after fitting the model, we calculate
+	p(y = 1|x) which is just p(x|y = 1)p(y = 1)/ p(x)
+	
+	\item \textbf{Logistic Regression}: We wanted to try regression and for discrete values, we used logistic regression.
+	\item \textbf{Decision Trees}: Here at each level we place the best feature at the node and then the split happens  depending on the features that produce the minimum classification error. And we chose the output based on the class of majority of data in the decision node.
+
+	\item \textbf{Support Vector Machines}: Support vector machine models are unique in that they find the boundaries between classes by looking at the distances between the separating line and the nearest point for each class, and are resistant to outliers. 
+
+\end{enumerate}
+\subsection*{Deploy The Model}
+Finally, we want to create REST API for the classifer that can be deployed on any platform. We used Flask for this.	
+
+% <!-- DATASET SPECS -->
+
 \section{Dataset Specification}
-Our dataset had 159571 comments, with each comment labelled as toxic, severe toxic, obscene, threat, insult, identity hate or none of 'em. The length of each comment varied from 10 words to 1200 words. To make it easier for us to train the model we chose comments with word count less than 600 as 132327 comments were under 600 words, and the number seemed good enough for the purposes of this project.
+The dataset was acqured from Wikipedia comments which was then labelled by Jigsaw and then finally provided by Kaggle. The dataset had 1,59,571 comments, where each comment was labelled as toxic, severe toxic, obscene, threat, insult, identity hate or none. 
+The data was labelled by the teams at Jigsaw (Alphabet) where each comment was labelled by at least 7 humans to reduce bias.
+The length of each comment varied from 10 words to 1200 words. 
+We ran an analysis to chose comments with
+word count less than 600 as we saw that after this length, the number of toxic 
+comments were too few. So, a total of 1,32,327 comments were chosen.
 \begin{center}
 	\includegraphics[scale=0.5]{figs/distribution.png}
 \end{center}
-Due to various constraints we decided to go with a binary classifier rather than a multilabel classifier. For this purpose, we created added a new column, istoxic which labels itself 1 if the comment is toxic and 0 if it isn't.\\
-The dataset contained a lot of punctuations and numbers which didn't really contributed to the overall sentiment or toxicity of the comment and hence were removed.\\
-Afterwards we first lemmetized, and then stemmed each comment and removed any stop words present. 
-\begin{center}
-	\includegraphics[scale=0.35]{figs/data_set.png}
-\end{center}
-\section{Methods, experiments and explanation, schematics}
+This is a multilabel classifier porblem which we converted to a binary classifier problem by relabelleing any comments identifying as any of the seven categories mentioned earlier. But the results for both have been published. \\
+The dataset also went through stemming and lemmatizeg to remove any or all stopwords. Furthermore, we cleaned punctuations, numbers also ip-addresses as well attempted to remove usernames so that particular usernames do not make the model biased.\\
+\begin{figure}
+	\begin{center}
+		\includegraphics[scale=0.35]{figs/data_set.png}
+		\caption{A snapshot of the dataset}
+		\label{fig:dataset}
+	\end{center}
+\end{figure}
+
+% <!-- Implementation -->
+
+
 \section{Implementation details}
-After the data is read, we select only comments with less than 600 words in it, and label each comment as toxic or not depending on the preexisting labels. nltk's wordnet module is used for stemming and lemmetizeing each comment after removing all the punctuations and numbers along with any other redundant utf-8 characters. After all the comments are cleaned, we use Tfidf word embedding to vectorize our comments so that we can use 'em for training our model. TfidfVectorizer is used as is from the scikit-learn module. The test to train split ratio is 3:1. Then we trained our model on various models, nameley SVM, Logistic Regression, Naive Bayes and decision trees. We trained the model on a laptop with i5-8520U and 16 gigs of RAM. We also trained a multi-label model using Binary Relevence from scikit-multilearn module which is built on top of scikit-learn eco-system and provides multi label classification. After training, we decided to deploy our model for demo purposes. Since we used python for our project, we decided to go with a simple FastAPI server. We created a pipeline with two stages, the first one vectorizing any input text and at the stage the actual fitting or prediction occurs. To save the model we pickle the pipeline object using python's in-built pickle library and write the raw binary data onto a file. Afterwards, the file is un-pickled at the server-side and a single string array is given to it for prediction. The API takes a single string as it's payload and returns the predicted outcome as it's response. The user has to create a POST request with the comment as the payload and we return whether the comment is toxic or not in the response body. Lastly we deployed the whole thing in a heroku server. You can take a look at the API at this link :- \url{https://iml-tox-det.herokuapp.com/docs} (please keep in mind that we are using a free server, it might take some time to start). We also went on and created a frontend website that uses the api: \url{https://adoring-bell-52f360.netlify.app} (the name is generated by netlify)
+\subsection*{Data Preprocessing}
+After the data is read, we select only comments with less than 600 words in it, 
+and label each comment as toxic or not depending on the pre-existing labels.
+nltk's wordnet module is used for stemming and lemmetizeing each comment 
+after removing all the punctuations and numbers along with any other 
+redundant utf-8 characters.
+\subsection*{Vectorization} 
+After all the comments are cleaned, we use TF-IDF to vectorize 
+our comments so that we can use them for training our model. 
+TfidfVectorizer is used as is from the scikit-learn module. TF-IDF stands for 
+Term frequency-inverse document frequency, is a numerical statistic that is
+intended to reflect how important a word is to a document in a collection.
+A document in this case is the comment whether toxic or not. 
+It does this by comparing the frequency of usage inside an individual comment
+as opposed to the entire data set. 
+The importance increases proportionally to the number of times a word appears in the 
+individual coment which is called Term Frequency. 
+But if multiple comments contain the same word repeatedly (example stopwords) 
+then their importance decreases. \\
+
+\begin{quote}
+TF(t) = \text{Number of times term t appears in a document }/{\text{ Total number of terms in the document}\\
+IDF(t) = $log_e$(Total number of documents / Number of documents with term t in it). \\
+Value = TF * IDF
+\end{quote}
+This vector becomes the feature vector for each comment. 
+
+\subsection*{Training and Testing}
+The test to train split ratio is 3:1. Then we trained our model on SVM, Logistic Regression, Naive Bayes and Decision Trees.
+We trained the model on a laptop with i5-8520U and 16 gigs of RAM.
+We also trained a multi-label model using Binary Relevence from scikit-multilearn module 
+which is built on top of scikit-learn eco-system and provides multi label classification.
+\subsection*{Deployment}
+After training, we decided to deploy our model for demo purposes. 
+Since we used python for our project, we decided to go with a simple FastAPI server.
+We created a pipeline with two stages, the first one vectorizing any
+input text and at the stage the actual fitting or prediction occurs. 
+To save the model we pickle the pipeline object using python's in-built 
+pickle library and write the raw binary data onto a file. 
+Afterwards, the file is un-pickled at the server-side and a single string 
+array is given to it for prediction. 
+The API takes a single string as it's payload and returns the predicted outcome 
+as it's response. The user has to create a POST request with the comment as the 
+payload and we return whether the comment is toxic or not in the response body.
+Lastly we deployed the whole thing in a heroku server.
+You can take a look at the API at this link 
+:- \url{https://iml-tox-det.herokuapp.com/docs}
+(please keep in mind that we are using a free server, it might take some time to start). 
+We also went on and created a frontend website that uses the api: 
+\url{https://adoring-bell-52f360.netlify.app}
 \section{Observations}
 \subsection{Binary Classifier SVM}
 Confusion Matrix:
@@ -140,62 +218,6 @@ Other metrics
 \end{center}
 
 \section{Conclusions and future directions}
-\section{Examples of citations, figures, tables, references}
-\label{sec:others}
-
-\subsection{Citations}
-Citations use \verb+natbib+. The documentation may be found at
-\begin{center}
-	\url{http://mirrors.ctan.org/macros/latex/contrib/natbib/natnotes.pdf}
-\end{center}
-
-Here is an example usage of the two main commands (\verb+citet+ and \verb+citep+): Some people thought a thing \citep{kour2014real, hadash2018estimate} but other people thought something else \citep{kour2014fast}. Many people have speculated that if we knew exactly why \citet{kour2014fast} thought this\dots
-
-\subsection{Figures}
-\lipsum[10]
-% See Figure \ref{fig:fig1}.
-Here is how you add footnotes. \footnote{Sample of the first footnote.}
-\lipsum[11]
-
-% \begin{figure}
-% 	\centering
-% 	\fbox{\rule[-.5cm]{4cm}{4cm} \rule[-.5cm]{4cm}{0cm}}
-% 	\caption{Sample figure caption.}
-% 	\label{fig:fig1}
-% \end{figure}
-
-\subsection{Tables}
-See awesome Table~\ref{tab:table}.
-
-The documentation for \verb+booktabs+ (`Publication quality tables in LaTeX') is available from:
-\begin{center}
-	\url{https://www.ctan.org/pkg/booktabs}
-\end{center}
-
-
-\begin{table}
-	\caption{Sample table title}
-	\centering
-	\begin{tabular}{lll}
-		\toprule
-		\multicolumn{2}{c}{Part}                   \\
-		\cmidrule(r){1-2}
-		Name     & Description     & Size ($\mu$m) \\
-		\midrule
-		Dendrite & Input terminal  & $\sim$100     \\
-		Axon     & Output terminal & $\sim$10      \\
-		Soma     & Cell body       & up to $10^6$  \\
-		\bottomrule
-	\end{tabular}
-	\label{tab:table}
-\end{table}
-
-\subsection{Lists}
-\begin{itemize}
-	\item Lorem ipsum dolor sit amet
-	\item consectetur adipiscing elit.
-	\item Aliquam dignissim blandit est, in dictum tortor gravida eget. In ac rutrum magna.
-\end{itemize}
 
 
 \bibliographystyle{unsrtnat}
