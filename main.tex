@@ -12,10 +12,10 @@
 \usepackage{microtype}      % microtypography
 \usepackage{lipsum}		% Can be removed after putting your text content
 \usepackage{graphicx}
-\usepackage{natbib}
+% \usepackage{natbib}
 \usepackage{doi}
 \usepackage{tabularx}
-\setcitestyle{aysep={,}}
+% \setcitestyle{aysep={,}}
 
 
 
@@ -69,7 +69,7 @@ we host the classifier so that users can interact with it.
 \label{sec:headings}
 This are several papers already published on the topic of Toxic Comments Classification. This was helpful for us to understand the topic and the way experts have approached it.
 We have used the following papers for our analysis: 
-\subsection{Toxic Comment Classification by Zaher et al.}
+\subsection*{Toxic Comment Classification by Zaher et al.}
 The authors used Naive Bayes (as benchmark), RNN and LSTM to classify toxic comments. They trained the classifier on the same kaggle dataset. 
 	\\
 	\begin{tabular}{cc}
@@ -78,7 +78,7 @@ The authors used Naive Bayes (as benchmark), RNN and LSTM to classify toxic comm
 The results showed that LSTM has an almost 20\% increase in True Positive Rate (TRP) which means that among all the identified toxic comments
 LSTM has 20\% more sensitivity in correct assignment of the comments. Furthemore there was an increase in Recall and F1 score when using LSTM.
 
-\subsection{A ML Approach to Comment Toxicity Classification by Chakrabarty}
+\subsection*{A ML Approach to Comment Toxicity Classification by Chakrabarty}
 The authors solved the problem of multi-label 
 classification rather than binary and further classified toxic comments as hate, toxic, severelytoxic and so on. 
 Two approaches were used for 3 labels each out of 6 labels. 
@@ -213,10 +213,6 @@ We also went on and created a frontend website that uses the api:
 The results even though do not match that of the researchers, still give good results. SVM Model clearly performs better than the other models and our benchmark model. We wanted to explore some CNN models as well but since we wanted to deploy the model and use it for realtime testing, the model proved too slow for that. We also wanted to explore more feature engineering techniques and see if they would improve the results. Our future goal for the project is to test an LSTM model after fully understanding how it works and deploying it. We also want to incorportate some context detection techniques to improve the results where we analyze the context of the comment by analyzing the post, and the parent threads.  	
 
 \bibliographystyle{unsrtnat}
-\bibliography{references}  %%% Uncomment this line and comment out the ``thebibliography'' section below to use the external .bib file (using bibtex) .
-
-
-%%% Uncomment this section and comment out the \bibliography{references} line above to use inline references.
 \begin{thebibliography}{1}
 
 	\bibitem{kour2014real}
