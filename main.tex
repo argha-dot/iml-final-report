@@ -164,26 +164,9 @@ Value = TF * IDF
 This vector becomes the feature vector for each comment. We further explored feature engineering where we can add features such as char length, word count, number of exclamations etc as features as well. We're leaving this out for now but we want to experiment more with feature engineering and see if it improves the results.
 
 \subsection*{Training and Testing}
-The test to train split ratio is 3:1. Then we trained our model on SVM, Logistic Regression, Naive Bayes and Decision Trees. We trained the model on a laptop with i5-8520U and 16 gigs of RAM. We also trained a multi-label model using Binary Relevence from scikit-multilearn module which is built on top of scikit-learn eco-system and provides multi label classification.
-\subsubsection*{Cross Validation}
-Cross-validation is the method used to estimate the performance (or accuracy) of machine learning models. It is used to protect against overfitting in a predictive model, particularly in a case where the amount of data may be limited. In cross-validation, you make a fixed number of folds (or partitions) of the data, run the analysis on each fold, and then average the overall error estimate. We are going with the default configuration for cross validation available in the scikit library, i.e. 5-fold cross validation.
+The test to train split ratio is 3:1. Then we trained our model on SVM, Logistic Regression, Naive Bayes and Decision Trees. We trained the model on a laptop with i5-8520U and 16 gigs of RAM. We also trained a multi-label model using Binary Relevence from scikit-multilearn module which is built on top of scikit-learn eco-system and provides multi label classification. 
+The dataset is heavily skewed to non-toxic comments (about 90\%) so a basic recall value will not be able to evaluate the model. We relied on Confusion Matrix and F1-Score which penalize the  models that just predict everything as either positive or negative with an imbalanced dataset.\\
 
-\begin{tabularx}{0.8\textwidth} { 
-	| >{\raggedright\arraybackslash}X 
-	| >{\raggedright\arraybackslash}X | }
-	\hline
-	Model & Cross Validation Score \\
-	\hline
-	Naive Bayes & 0.920  \\
-	\hline
-	Logistic Regression  & 0.953 \\
-	\hline
-	Decision Tree & 0.942 \\
-	\hline
-	SVM & 0.956 \\
-	\hline
-\end{tabularx}\\
-As the scores indicate, the test score of the model with cross validation is above 90\% for all the models
 \subsection*{Deployment}
 After training, we decided to deploy our model for demo purposes. 
 Since we used python for our project, we decided to go with a simple FastAPI server.
@@ -203,6 +186,24 @@ You can take a look at the API at this link
 We also went on and created a frontend website that uses the api: 
 \url{https://adoring-bell-52f360.netlify.app}
 \section{Observations}
+\subsection*{Cross Validation}
+Cross-validation is the method used to estimate the performance (or accuracy) of machine learning models. It is used to protect against overfitting in a predictive model, particularly in a case where the amount of data may be limited. In cross-validation, you make a fixed number of folds (or partitions) of the data, run the analysis on each fold, and then average the overall error estimate. We are going with the default configuration for cross validation available in the scikit library, i.e. 5-fold cross validation.
+\begin{tabularx}{0.8\textwidth} { 
+	| >{\raggedright\arraybackslash}X 
+	| >{\raggedright\arraybackslash}X | }
+	\hline
+	Model & Cross Validation Score \\
+	\hline
+	Naive Bayes & 0.920  \\
+	\hline
+	Logistic Regression  & 0.953 \\
+	\hline
+	Decision Tree & 0.942 \\
+	\hline
+	SVM & 0.956 \\
+	\hline
+\end{tabularx}\\
+As the scores indicate, the test score of the model with cross validation is above 90\% for all the models
 \subsection*{Binary Classifcation}
 \begin{tabularx}{0.8\textwidth} { 
 	| >{\raggedright\arraybackslash}X 
@@ -220,6 +221,30 @@ We also went on and created a frontend website that uses the api:
 	\hline
 	SVM & 0.926 & 0.653 & 0.766 \\
 	\hline
+\end{tabularx}
+Naive Bayes has the highest recall but lowest precision and F1-Score. It is clearly not a good model for this problem.
+\subsection*{Multilabel Classifcation with SVM}
+\begin{tabularx}{0.8\textwidth} { 
+	| >{\raggedright\arraybackslash}X 
+	| >{\raggedright\arraybackslash}X 
+	| >{\centering\arraybackslash}X 
+	| >{\raggedleft\arraybackslash}X | }
+	\hline
+	Label & Recall & Precision & F1-Score \\
+	\hline
+	Toxic & 0.92 & 0.623 & 0.743 \\
+	\hline
+	Severe Toxic  & 0.59  & 0.107 & 0.182  \\
+	\hline
+	Obscene & 0.911 & 0.693 & 0.787 \\
+	\hline
+	Threat & 0.75 & 0.026 & 0.05 \\
+	\hline
+	Insult & 0.81 & 0.559 & 0.662 \\
+	\hline
+	Identity Hate & 0.762 & 0.148 & 0.248 \\
+	\hline
+
 \end{tabularx}
 
 \section{Conclusions and future directions}

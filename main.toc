@@ -3,5 +3,5 @@
 \contentsline {section}{\numberline {3}Project Description and goals}{2}{section.3}%
 \contentsline {section}{\numberline {4}Dataset Specification}{3}{section.4}%
 \contentsline {section}{\numberline {5}Implementation details}{3}{section.5}%
-\contentsline {section}{\numberline {6}Observations}{5}{section.6}%
+\contentsline {section}{\numberline {6}Observations}{4}{section.6}%
 \contentsline {section}{\numberline {7}Conclusions and future directions}{5}{section.7}%
