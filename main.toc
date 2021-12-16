@@ -6,9 +6,4 @@
 \contentsline {section}{\numberline {4}Dataset Specification}{3}{section.4}%
 \contentsline {section}{\numberline {5}Implementation details}{3}{section.5}%
 \contentsline {section}{\numberline {6}Observations}{5}{section.6}%
-\contentsline {subsection}{\numberline {6.1}Binary Classifier SVM}{5}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2}Multilabel Classifier SVM}{5}{subsection.6.2}%
-\contentsline {subsection}{\numberline {6.3}Logistic Regression}{6}{subsection.6.3}%
-\contentsline {subsection}{\numberline {6.4}Naive Bayes}{7}{subsection.6.4}%
-\contentsline {subsection}{\numberline {6.5}Decision Trees}{7}{subsection.6.5}%
-\contentsline {section}{\numberline {7}Conclusions and future directions}{7}{section.7}%
+\contentsline {section}{\numberline {7}Conclusions and future directions}{5}{section.7}%
