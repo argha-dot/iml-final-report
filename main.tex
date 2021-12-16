@@ -70,16 +70,24 @@ This are several papers already published on the topic of Toxic Comments Classif
 We have used the following papers for our analysis: 
 \subsection{Toxic Comment Classification by Zaher et al.}
 The authors used Naive Bayes (as benchmark), RNN and LSTM to classify toxic comments. They trained the classifier on the same kaggle dataset. 
+	\\
 	\begin{tabular}{cc}
-		\includegraphics[width=85mm]{figs/zaher_bayes.png} & \includegraphics[width=85mm]{figs/zaher_lstm.png} \\
-	\end{tabular}
+		\includegraphics[width=65mm]{figs/zaher_bayes.png} & \includegraphics[width=65mm]{figs/zaher_lstm.png} \\
+	\end{tabular} \\
 The results showed that LSTM has an almost 20\% increase in True Positive Rate (TRP) which means that among all the identified toxic comments
 LSTM has 20\% more sensitivity in correct assignment of the comments. Furthemore there was an increase in Recall and F1 score when using LSTM.
 
-\subsection{A Machine Learning Approach to Comment Toxicity Classification by Navoneel Chakrabarty}
-The authors solved the problem of multi-label classification rather than binary and further classified toxic comments as hate, toxic, severelytoxic and so on. Two approaches were used for 3 labels each out of 6 labels. The authors used Bag of words using Word count vectorizer and then the tf-idf transformer which is finally used to train. Support Vector Machine (SVM) classifier with 100 as maximum iterations and C as 1.0. Whereas for the other three labels, decision tree classifier was used instead.
+\subsection{A ML Approach to Comment Toxicity Classification by Chakrabarty}
+The authors solved the problem of multi-label 
+classification rather than binary and further classified toxic comments as hate, toxic, severelytoxic and so on. 
+Two approaches were used for 3 labels each out of 6 labels. 
+The authors used Bag of words using Word count vectorizer and then the tf-idf transformer which is finally used to train. Support Vector Machine (SVM) classifier with 100 as maximum iterations and C as 1.0. Whereas for the other three labels, decision tree classifier was used instead.
+\\
 \includegraphics[scale=0.9]{figs/chakra_all.png}
-The paper claims that this apporach performs better than LSTM and Naive Bayes and the results validates this claim. We want to validate this claim on binary classification.
+\\
+The paper claims that this apporach performs better than
+ LSTM and Naive Bayes and the results validates this claim. 
+ We want to validate this claim on binary classification.
 \section{Project Description and goals}
 The project is to classify toxic comments on social media platforms. The goals are as follows:
 \subsection*{Use Different Classification Techniques}
@@ -144,7 +152,7 @@ But if multiple comments contain the same word repeatedly (example stopwords)
 then their importance decreases. \\
 
 \begin{quote}
-TF(t) = \text{Number of times term t appears in a document }/{\text{ Total number of terms in the document}\\
+TF(t) = Number of times term t appears in a document / Total number of terms in the document\\
 IDF(t) = $log_e$(Total number of documents / Number of documents with term t in it). \\
 Value = TF * IDF
 \end{quote}
